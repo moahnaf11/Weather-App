@@ -17,7 +17,7 @@ window.addEventListener("load", () => {
     let place = loadFromLocalStorage("place")
     if (!place) {
         place = "dubai";
-        getData("place");
+        getData(place);
     }   else {
         getData(place);
     }
