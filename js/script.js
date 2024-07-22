@@ -1,5 +1,6 @@
 import { hourlyForecast } from "./hourly";
 import { setIcon, hourlyIcon } from "./icons";
+import { saveToLocalStorage } from "./storage";
 
 // api fetching function
 let titleCard = document.querySelector("div.title > h1");
@@ -59,7 +60,13 @@ let todayconditions = document.querySelector(".today-conditions > :nth-child(4)"
 let todayuvindex = document.querySelector(".today-conditions > :last-child");
 
 
+let unit = "°C";
+let celsius = document.querySelector(".celsius");
+let fahrenheit = document.querySelector(".fahren");
 
+let jsonResponse;
+
+let store;
 
 
 
@@ -72,7 +79,16 @@ async function getData (location) {
         if (!response.ok) {
             throw new Error("error in fetching data");
         }   else {
-            const jsonResponse = await response.json();
+            jsonResponse = await response.json();
+            let buttonContainer = document.querySelector(".button-container2");
+            buttonContainer.style.display = "flex";
+            celsius.classList.add("active");
+            if (fahrenheit.classList.contains("active")) {
+                fahrenheit.classList.remove("active");
+            }
+            saveToLocalStorage("place", location);
+            unit = "°C";
+
             displayTitleContents(jsonResponse);
             DisplayNextDays(jsonResponse);
             displayTodayConditions(jsonResponse);
@@ -94,8 +110,8 @@ function displayTitleContents (objects) {
     titleCard.textContent = objects.resolvedAddress;
     dateTime.textContent = new Date(objects.days[0].datetime).toDateString();
     time.textContent = objects.currentConditions.datetime.slice(0, 5);
-    temp.textContent = "Temp: " + objects.currentConditions.temp + "°C";
-    feelsLike.textContent = "Feels Like: " + objects.currentConditions.feelslike + "°C";
+    temp.textContent = "Temp: " + objects.currentConditions.temp + unit;
+    feelsLike.textContent = "Feels Like: " + objects.currentConditions.feelslike + unit;
     humidity.textContent = "Humidity: " + objects.currentConditions.humidity;
     precip.textContent = "Precipitation: " + objects.currentConditions.precip;
     sunset.textContent = "Sunset: " + objects.currentConditions.sunset.slice(0, 5);
@@ -103,40 +119,40 @@ function displayTitleContents (objects) {
 
 function DisplayNextDays (objects) {
     day1date.textContent = new Date(objects.days[1].datetime).toDateString();
-    day1temperature.textContent = "temp " + objects.days[1].temp + "°C";
-    day1max.textContent = "max " + objects.days[1].tempmax + "°C";
-    day1min.textContent = "min " + objects.days[1].tempmin + "°C";
+    day1temperature.textContent = "temp " + objects.days[1].temp + unit;
+    day1max.textContent = "max " + objects.days[1].tempmax + unit;
+    day1min.textContent = "min " + objects.days[1].tempmin + unit;
     day1humidity.textContent = "humidity " + objects.days[1].humidity;
     day1sunset.textContent = "sunset " + objects.days[1].sunset.slice(0, 5);
 
     day2date.textContent = new Date(objects.days[2].datetime).toDateString();
-    day2temperature.textContent = "temp " + objects.days[2].temp + "°C";
-    day2max.textContent = "max " + objects.days[2].tempmax + "°C";
-    day2min.textContent = "min " + objects.days[2].tempmin + "°C";
+    day2temperature.textContent = "temp " + objects.days[2].temp + unit;
+    day2max.textContent = "max " + objects.days[2].tempmax + unit;
+    day2min.textContent = "min " + objects.days[2].tempmin + unit;
     day2humidity.textContent = "humidity " + objects.days[2].humidity;
     day2sunset.textContent = "sunset " + objects.days[2].sunset.slice(0, 5);
 
 
     day3date.textContent = new Date(objects.days[3].datetime).toDateString();
-    day3temperature.textContent = "temp " + objects.days[3].temp + "°C";
-    day3max.textContent = "max " + objects.days[3].tempmax + "°C";
-    day3min.textContent = "min " + objects.days[3].tempmin + "°C";
+    day3temperature.textContent = "temp " + objects.days[3].temp + unit;
+    day3max.textContent = "max " + objects.days[3].tempmax + unit;
+    day3min.textContent = "min " + objects.days[3].tempmin + unit;
     day3humidity.textContent = "humidity " + objects.days[3].humidity;
     day3sunset.textContent = "sunset " + objects.days[3].sunset.slice(0, 5);
 
 
     day4date.textContent = new Date(objects.days[4].datetime).toDateString();
-    day4temperature.textContent = "temp " + objects.days[4].temp + "°C";
-    day4max.textContent = "max " + objects.days[4].tempmax + "°C";
-    day4min.textContent = "min " + objects.days[4].tempmin + "°C";
+    day4temperature.textContent = "temp " + objects.days[4].temp + unit;
+    day4max.textContent = "max " + objects.days[4].tempmax + unit;
+    day4min.textContent = "min " + objects.days[4].tempmin + unit;
     day4humidity.textContent = "humidity " + objects.days[4].humidity;
     day4sunset.textContent = "sunset " + objects.days[4].sunset.slice(0, 5);
 
 
     day5date.textContent = new Date(objects.days[5].datetime).toDateString();
-    day5temperature.textContent = "temp " + objects.days[5].temp + "°C";
-    day5max.textContent = "max " + objects.days[5].tempmax + "°C";
-    day5min.textContent = "min " + objects.days[5].tempmin + "°C";
+    day5temperature.textContent = "temp " + objects.days[5].temp + unit;
+    day5max.textContent = "max " + objects.days[5].tempmax + unit;
+    day5min.textContent = "min " + objects.days[5].tempmin + unit;
     day5humidity.textContent = "humidity " + objects.days[5].humidity;
     day5sunset.textContent = "sunset " + objects.days[5].sunset.slice(0, 5);
 
@@ -154,3 +170,5 @@ function displayTodayConditions (objects) {
 
 }
 
+
+export {unit, fahrenheit, temp, feelsLike, jsonResponse, celsius, day1max, day1min, day1temperature, day2temperature, day2max, day2min, day3temperature, day3max, day3min, day4temperature, day4max, day4min, day5temperature, day5max, day5min};

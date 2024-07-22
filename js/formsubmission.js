@@ -4,7 +4,7 @@ import { getData } from "./script";
 let index = 1;
 let hoursIndex = 0;
 
-
+let inputValue;
 
 function formSubmit (e) {
     e.preventDefault();
@@ -16,6 +16,7 @@ function formSubmit (e) {
         inputContainer.reportValidity();
     }   else {
         inputContainer.setCustomValidity("");
+        inputValue = inputContainer.value.toLowerCase();
         getData(inputContainer.value.toLowerCase());
     }
 }
@@ -24,4 +25,4 @@ function formSubmit (e) {
 
 
 
-export {formSubmit, index, hoursIndex};
+export {formSubmit, index, hoursIndex, inputValue};

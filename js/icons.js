@@ -24,9 +24,27 @@ let iconObject = {
 }
 
 function setIcon (objects) {
+    let style = document.createElement('style');
+    style.id = "dynamic-titleicon-style";
+
+    let styleContent = "";
     let icon = objects.currentConditions.icon;
     if (iconObject[icon]) {
-        targetContent.style.backgroundImage = `url(${iconObject[icon]})`;
+        styleContent = `
+            .title.content-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                background-image: url(${iconObject[icon]});
+                background-position: right;
+                background-repeat: no-repeat;
+            }
+        `;
+        style.innerHTML = styleContent;
+        document.head.appendChild(style);
     }   else {
         console.log("icon not found");
     }
@@ -45,7 +63,7 @@ function hourlyIcon (objects) {
         let hoursIcon = objects.days[0].hours[newHour].icon;
 
         styleContent += `
-            .every.hour${newHour}::before {
+            .every.hour${newHour + 1}::before {
                 content: '';
                 position: absolute;
                 top: 0;
@@ -54,10 +72,10 @@ function hourlyIcon (objects) {
                 right: 0;
                 background-image: url(${iconObject[hoursIcon]});
                 background-size: cover;
+                background-repeat: no-repeat;
                 background-position: center;
-                opacity: 0.5;
-                z-index: -1;
-                border-radius: 20px;
+                opacity: 0.2;
+                z-index: 0;
             }
         `;
         newHour += 1;
