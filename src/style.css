@@ -251,8 +251,11 @@ div.day1info, div.day2info, div.day3info, div.day4info, div.day5info {
 div.title.content-card {
     padding: 2%;
     position: relative;
-    text-align: left;
-    
+    text-align: left;    
+}
+
+div.title.content-card > div {
+    z-index: 1;
 }
 
 

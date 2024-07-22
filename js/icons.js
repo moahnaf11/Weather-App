@@ -41,6 +41,8 @@ function setIcon (objects) {
                 background-image: url(${iconObject[icon]});
                 background-position: right;
                 background-repeat: no-repeat;
+                opacity: 0.7;
+                z-index: 0;
             }
         `;
         style.innerHTML = styleContent;
